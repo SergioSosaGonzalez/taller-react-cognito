@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { Auth } from 'aws-amplify'
+import { useHistory } from 'react-router-dom';
 
 const VerifyCode = () => {
     const [code, setCode] = useState('');
 
+    const history = useHistory()
     const onSubmit = async (e) => {
         try {
             e.preventDefault();
             const email = localStorage.getItem('emailToVerified')
             await Auth.confirmSignUp(email, code);
             localStorage.removeItem('emailToVerified')
+            history.push('/');
         } catch (e) {
             alert('error');
         }
